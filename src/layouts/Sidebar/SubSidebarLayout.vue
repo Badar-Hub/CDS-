@@ -39,7 +39,7 @@ const sidebarStyle = computed(() => ({
     :class="{ 'sub-sidebar-collapsed': isCollapsed }"
     :style="sidebarStyle"
   >
-    <div class="column full-height">
+    <div class="column sub-sidebar-content">
       <div class="sub-sidebar-header q-pa-lg" :class="{ 'header-collapsed': isCollapsed }">
         <span class="header-title">{{ parentRoute.name }}</span>
       </div>
@@ -89,14 +89,19 @@ const sidebarStyle = computed(() => ({
   position: fixed;
   width: auto;
   height: 100vh;
+  top: 72px;
   background-color: $light-page;
   border-right: 1px solid rgba(0, 0, 0, 0.12);
-  z-index: 2000;
+  z-index: 1999;
   display: flex;
   flex-direction: column;
 
   .q-item__label {
     font-size: 18px;
+  }
+
+  .sub-sidebar-content {
+    height: calc(100% - 75px);
   }
 }
 

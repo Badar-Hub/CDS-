@@ -57,7 +57,7 @@ onMounted(() => {
 
       <q-separator />
 
-      <q-item
+      <!-- <q-item
         clickable
         @click="isCollapsed = !isCollapsed"
         class="collapse-btn q-pa-md"
@@ -78,7 +78,7 @@ onMounted(() => {
             <q-item-label class="collapse-label">Compress</q-item-label>
           </q-item-section>
         </template>
-      </q-item>
+      </q-item> -->
     </div>
   </q-drawer>
 </template>

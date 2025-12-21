@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import StellarHeader from 'layouts/Header/StellarHeader.vue';
 import SidebarLayout from 'layouts/Sidebar/SidebarLayout.vue';
 import SubSidebarLayout from 'layouts/Sidebar/SubSidebarLayout.vue';
-import StellarHeader from 'layouts/Header/StellarHeader.vue';
 import type { IRouteDto } from 'layouts/Sidebar/interfaces/iroute-dto.ts';
 
-const collapsedSidebar = ref(false);
+const collapsedSidebar = ref(true);
 const collapsedSubSidebar = ref(false);
 const selectedRoute = ref<IRouteDto | null>(null);
 </script>
 
 <template>
-  <q-layout view="lhh Lpr lFf">
+  <q-layout view="hHh Lpr lFf">
     <StellarHeader />
 
     <SidebarLayout
