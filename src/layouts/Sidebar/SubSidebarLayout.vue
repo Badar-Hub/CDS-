@@ -1,22 +1,26 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import type { IRouteDto } from './interfaces/iroute-dto.ts';
 import EssentialLink from 'components/EssentialLink.vue';
 
 const props = defineProps<{
-  parentRoute: IRouteDto | null;
   offsetLeft: number;
+  collapsedSubSidebar: boolean;
+  parentRoute: IRouteDto | null;
 }>();
 
-defineEmits<{
-  (e: 'close'): void;
+const emit = defineEmits<{
+  (e: 'update:collapsedSubSidebar', value: boolean): void;
 }>();
 
-const isCollapsed = ref(false);
-
-const toggleCollapse = () => {
-  isCollapsed.value = !isCollapsed.value;
-};
+const isCollapsed = computed({
+  get() {
+    return props.collapsedSubSidebar;
+  },
+  set(value: boolean) {
+    emit('update:collapsedSubSidebar', value);
+  },
+});
 
 const visibleChildren = computed(() => {
   if (!props.parentRoute?.children) return [];
@@ -58,7 +62,7 @@ const sidebarStyle = computed(() => ({
         clickable
         class="compress-btn q-pa-md"
         :class="{ 'collapsed-item': isCollapsed }"
-        @click="toggleCollapse"
+        @click="isCollapsed = !isCollapsed"
       >
         <template v-if="isCollapsed">
           <q-item-section class="collapsed-content">
@@ -87,7 +91,7 @@ const sidebarStyle = computed(() => ({
   height: 100vh;
   background-color: $light-page;
   border-right: 1px solid rgba(0, 0, 0, 0.12);
-  z-index: 1999;
+  z-index: 2000;
   display: flex;
   flex-direction: column;
 

@@ -1,45 +1,38 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue';
 import routesList from 'src/router/routes';
+import { onMounted, ref, computed } from 'vue';
 import type { RouteRecordRaw } from 'vue-router';
-import type { IRouteDto } from './interfaces/iroute-dto.ts';
 import EssentialLink from 'components/EssentialLink.vue';
-import SubSidebarLayout from './SubSidebarLayout.vue';
+import type { IRouteDto } from './interfaces/iroute-dto.ts';
+
+const props = defineProps<{
+  collapsedSidebar: boolean;
+  selectedRoute: IRouteDto | null;
+}>();
+
+const emit = defineEmits<{
+  (e: 'update:collapsedSidebar', value: boolean): void;
+  (e: 'update:selectedRoute', value: IRouteDto | null): void;
+}>();
+
+const isCollapsed = computed({
+  get() {
+    return props.collapsedSidebar;
+  },
+  set(value: boolean) {
+    emit('update:collapsedSidebar', value);
+  },
+});
 
 const routes = ref<IRouteDto[]>([]);
-const leftDrawerOpen = ref(true);
-const isCollapsed = ref(false);
-const selectedRoute = ref<IRouteDto | null>(null);
-
-const hasChildren = computed(() => {
-  return selectedRoute.value?.children && selectedRoute.value.children.length > 0;
+const selectedRoute = computed({
+  get() {
+    return props.selectedRoute;
+  },
+  set(value: IRouteDto | null) {
+    emit('update:selectedRoute', value);
+  },
 });
-
-const mainSidebarWidth = computed(() => {
-  return isCollapsed.value ? 120 : 280;
-});
-
-const handleRouteSelect = (route: IRouteDto) => {
-  selectedRoute.value = route;
-
-  if (route.children && route.children.length > 0) {
-    isCollapsed.value = true;
-  } else {
-    isCollapsed.value = false;
-  }
-};
-
-const toggleCollapse = () => {
-  isCollapsed.value = !isCollapsed.value;
-  if (!isCollapsed.value) {
-    selectedRoute.value = null;
-  }
-};
-
-const closeSubSidebar = () => {
-  selectedRoute.value = null;
-  isCollapsed.value = false;
-};
 
 onMounted(() => {
   routes.value = routesList.filter(
@@ -49,17 +42,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- Main Sidebar -->
-  <q-drawer v-model="leftDrawerOpen" show-if-above bordered :width="mainSidebarWidth">
+  <q-drawer show-if-above bordered :width="isCollapsed ? 120 : 280">
     <div class="column full-height">
       <q-list class="q-mt-xl col">
         <EssentialLink
-          v-for="link in routes"
-          :key="link.name"
+          v-for="(link, index) in routes"
+          :key="index"
+          v-bind="link"
           class="q-my-lg q-pa-md"
           :collapsed="isCollapsed"
-          v-bind="link"
-          @click="handleRouteSelect(link)"
+          @click="selectedRoute = link"
         />
       </q-list>
 
@@ -67,7 +59,7 @@ onMounted(() => {
 
       <q-item
         clickable
-        @click="toggleCollapse"
+        @click="isCollapsed = !isCollapsed"
         class="collapse-btn q-pa-md"
         :class="{ 'collapsed-item': isCollapsed }"
       >
@@ -89,13 +81,6 @@ onMounted(() => {
       </q-item>
     </div>
   </q-drawer>
-
-  <SubSidebarLayout
-    v-if="isCollapsed && hasChildren"
-    :parent-route="selectedRoute"
-    :offset-left="mainSidebarWidth"
-    @close="closeSubSidebar"
-  />
 </template>
 
 <style lang="scss">
