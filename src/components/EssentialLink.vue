@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<IRouteDto>(), {
 });
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .link-label {
   color: $text-light;
   font-size: 20px;
@@ -68,8 +68,21 @@ const props = withDefaults(defineProps<IRouteDto>(), {
     font-weight: 600;
   }
 
-  :deep(.q-icon) {
+  .q-icon {
     color: $primary;
+  }
+}
+
+.body--dark .active-link {
+  background-color: $dark;
+
+  .link-label,
+  .link-label-small {
+    color: $primary !important;
+  }
+
+  .q-icon {
+    color: $primary !important;
   }
 }
 </style>

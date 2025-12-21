@@ -1,1 +1,12 @@
 // app global css in SCSS form
+
+// Dark mode page layout background
+.body--dark {
+  .q-page-container {
+    background-color: #1a222a;
+  }
+
+  .q-page {
+    background-color: #1a222a;
+  }
+}

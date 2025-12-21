@@ -105,6 +105,31 @@ const sidebarStyle = computed(() => ({
   }
 }
 
+.body--dark .sub-sidebar {
+  background-color: #13191f;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+
+  .link-label,
+  .link-label-small {
+    color: #8991a1 !important;
+  }
+
+  .q-icon {
+    color: #8991a1;
+  }
+
+  .active-link {
+    .link-label,
+    .link-label-small {
+      color: $primary !important;
+    }
+
+    .q-icon {
+      color: $primary !important;
+    }
+  }
+}
+
 .sub-sidebar-collapsed {
   width: auto;
 
@@ -130,6 +155,12 @@ const sidebarStyle = computed(() => ({
   }
 }
 
+.body--dark .sub-sidebar-header {
+  .header-title {
+    color: #8991a1;
+  }
+}
+
 .compress-btn {
   .compress-label {
     color: $text-light;
@@ -147,6 +178,21 @@ const sidebarStyle = computed(() => ({
 
   &:hover {
     background-color: $light;
+  }
+}
+
+.body--dark .compress-btn {
+  .compress-label,
+  .compress-label-small {
+    color: #8991a1;
+  }
+
+  .q-icon {
+    color: #8991a1;
+  }
+
+  &:hover {
+    background-color: $dark;
   }
 }
 

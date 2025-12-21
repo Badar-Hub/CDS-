@@ -88,6 +88,30 @@ onMounted(() => {
   background-color: $light-page !important;
 }
 
+.body--dark .q-drawer__content {
+  background-color: #00070f !important;
+
+  .link-label,
+  .link-label-small {
+    color: #415b66 !important;
+  }
+
+  .q-icon {
+    color: #415b66;
+  }
+
+  .active-link {
+    .link-label,
+    .link-label-small {
+      color: $primary !important;
+    }
+
+    .q-icon {
+      color: $primary !important;
+    }
+  }
+}
+
 .collapse-btn {
   .collapse-label {
     color: $text-light;
@@ -105,6 +129,21 @@ onMounted(() => {
 
   &:hover {
     background-color: $light;
+  }
+}
+
+.body--dark .collapse-btn {
+  .collapse-label,
+  .collapse-label-small {
+    color: #415b66;
+  }
+
+  .q-icon {
+    color: #415b66;
+  }
+
+  &:hover {
+    background-color: $dark;
   }
 }
 
