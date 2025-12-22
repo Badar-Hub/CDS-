@@ -121,7 +121,7 @@ const routes: RouteRecordRaw[] = [
           {
             path: 'client',
             name: 'Client',
-            component: () => import('pages/EmptyPage.vue'),
+            component: () => import('pages/Registration/Client/ClientOverview.vue'),
             meta: { icon: 'people' },
           },
           {

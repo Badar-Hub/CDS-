@@ -26,8 +26,30 @@ const selectedRoute = ref<IRouteDto | null>(null);
       :offset-left="collapsedSidebar ? 120 : 280"
     />
 
-    <q-page-container>
+    <q-page-container
+      class="stellar-page-container"
+      :class="
+        selectedRoute?.children && selectedRoute.children.length > 0
+          ? 'page-container-expanded'
+          : 'page-container-collapsed'
+      "
+    >
       <router-view />
     </q-page-container>
   </q-layout>
 </template>
+
+<style lang="scss">
+.stellar-page-container {
+  .q-page {
+    align-items: flex-start !important;
+  }
+  .page-container-expanded {
+    padding-left: 385px !important;
+  }
+
+  .page-container-collapsed {
+    padding-left: 120px !important;
+  }
+}
+</style>
