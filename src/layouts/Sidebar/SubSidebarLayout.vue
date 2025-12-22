@@ -40,7 +40,7 @@ const sidebarStyle = computed(() => ({
     :style="sidebarStyle"
   >
     <div class="column sub-sidebar-content">
-      <div class="sub-sidebar-header q-pa-lg" :class="{ 'header-collapsed': isCollapsed }">
+      <div class="sub-sidebar-header" :class="{ 'header-collapsed': isCollapsed }">
         <span class="header-title">{{ parentRoute.name }}</span>
       </div>
 
@@ -50,9 +50,9 @@ const sidebarStyle = computed(() => ({
         <EssentialLink
           v-for="child in visibleChildren"
           :key="child.name"
+          v-bind="child"
           class="q-my-lg q-py-md q-pr-lg"
           :collapsed="isCollapsed"
-          v-bind="child"
         />
       </q-list>
 
@@ -139,15 +139,17 @@ const sidebarStyle = computed(() => ({
 }
 
 .sub-sidebar-header {
+  padding: 25px 25px 24px 30px !important;
   .header-title {
     font-size: 24px;
     font-weight: 600;
     color: $dark;
+    margin-top: 5px !important;
   }
 
   &.header-collapsed {
     text-align: center;
-    padding: 20px 12px 20px 2px !important;
+    padding: 29px 12px 29px 2px !important;
 
     .header-title {
       font-size: 18px;

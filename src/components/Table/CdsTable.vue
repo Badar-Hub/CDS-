@@ -37,7 +37,6 @@ const emit = defineEmits<{
   (e: 'request', props: unknown): void;
 }>();
 
-// Pagination composable
 const {
   pagination: internalPagination,
   showingText,
@@ -52,7 +51,6 @@ const {
   toRef(props, 'entityName'),
 );
 
-// Column helpers
 const overrideColumns = computed(() => props.columns.filter((col) => col.override));
 
 const visibleColumns = computed(() => {
@@ -136,7 +134,6 @@ const getColumnIcon = (colName: string) => props.columns.find((col) => col.name 
       <div class="table-bottom row items-center full-width q-py-md">
         <div class="col-4 text-left">
           <span class="showing-text">{{ showingText }}</span>
-          <q-icon name="expand_more" size="18px" class="q-ml-xs" />
         </div>
 
         <div class="col-4 row justify-center items-center pagination-controls">
@@ -198,7 +195,6 @@ const getColumnIcon = (colName: string) => props.columns.find((col) => col.name 
     color: #5d5d5d;
     padding: 12px 16px;
 
-    // Ensure header content and sort icon stay inline
     .q-table__sort-icon {
       display: inline-flex;
       margin-left: 4px;
@@ -217,7 +213,6 @@ const getColumnIcon = (colName: string) => props.columns.find((col) => col.name 
     }
   }
 
-  // Alternating row colors
   .q-table tbody tr:nth-child(odd) {
     background-color: #f5faff;
   }

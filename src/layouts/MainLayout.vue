@@ -29,9 +29,10 @@ const selectedRoute = ref<IRouteDto | null>(null);
     <q-page-container
       class="stellar-page-container"
       :class="
-        selectedRoute?.children && selectedRoute.children.length > 0
+        (selectedRoute?.children && selectedRoute.children.length > 0) && !collapsedSubSidebar
           ? 'page-container-expanded'
-          : 'page-container-collapsed'
+          : (selectedRoute?.children && selectedRoute.children.length > 0) && collapsedSubSidebar ?
+          'page-container-collapsed' : ''
       "
     >
       <router-view />
@@ -44,12 +45,12 @@ const selectedRoute = ref<IRouteDto | null>(null);
   .q-page {
     align-items: flex-start !important;
   }
-  .page-container-expanded {
-    padding-left: 385px !important;
-  }
+}
+.page-container-expanded {
+  padding-left: 385px !important;
+}
 
-  .page-container-collapsed {
-    padding-left: 120px !important;
-  }
+.page-container-collapsed {
+  padding-left: 280px !important;
 }
 </style>

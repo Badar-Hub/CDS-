@@ -1,230 +1,38 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import CdsTable from 'components/Table/CdsTable.vue';
-import { ColumnModel } from 'components/Table/column-model';
+import type { IContentDataDto } from './interface/icontent-data-dto';
+import type { ColumnModel } from 'src/components/Table/column-model';
+import { computed } from 'vue';
 
-const search = ref('');
+const props = defineProps<{
+  contentData: IContentDataDto[];
+  columns: ColumnModel[];
+  data: unknown[];
+  pageTitle: string;
+  search: string;
+}>();
 
-const columns = ref<ColumnModel[]>([
-  new ColumnModel('code', 'Code', true, false, '', true, false),
-  new ColumnModel('user', 'User', false, false, '', true, false, 'person'),
-  new ColumnModel('type', 'Type', false, false, '', true, false, 'category'),
-  new ColumnModel('mobile', 'Mobile', false, false, '', true, false, 'smartphone'),
-  new ColumnModel('phone', 'Phone', false, false, '', true, false, 'phone'),
-  new ColumnModel('branch', 'Branch', false, false, '', true, false, 'store'),
-  new ColumnModel('registration', 'Registration', false, false, '', true, false, 'how_to_reg'),
-  new ColumnModel('zone', 'Zone', false, false, '', true, false),
-  new ColumnModel('refferedBy', 'Reffered By', false, false, '', true, false),
-  new ColumnModel('status', 'Status', false, false, '', true, false, 'info'),
-  new ColumnModel('comment', 'Comment', false, false, '', true, false),
-  new ColumnModel('action', 'Action', false, false, '', true, false),
-]);
+const emit = defineEmits<{
+  (e: 'search', search: string): void;
+}>();
 
-const data = ref<unknown[]>([
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
+const inputSearch = computed({
+  get() {
+    return props.search;
   },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
+  set(value: string) {
+    emit('search', value);
   },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-  {
-    code: '1234567890',
-    user: 'john.doe@example.com',
-    type: 'Mobile',
-    mobile: '1234567890',
-    phone: '1234567890',
-    branch: 'Branch',
-    registration: 'Registration',
-    zone: 'Zone',
-    refferedBy: 'Reffered By',
-    status: 'Status',
-    comment: 'Comment',
-    action: 'Action',
-  },
-]);
+});
+
+
 </script>
 <template>
   <div class="block full-width">
     <div class="row full-width justify-between">
-      <div class="column q-px-lg">
-        <h4 class="q-my-xs">Header</h4>
-        <h6 class="q-my-xs">Sales > <strong>Client</strong></h6>
+      <div class="column q-px-lg q-mt-xs">
+        <h6 class="q-mb-sm q-mt-sm ">{{props.pageTitle}}</h6>
+        <h6 class="q-mt-sm q-mb-xs text-body2">Sales > <strong>Client</strong></h6>
       </div>
       <div class="q-px-lg q-my-auto">
         <q-btn label="Create New" icon="add" color="primary" />
@@ -234,54 +42,21 @@ const data = ref<unknown[]>([
       </div>
     </div>
     <div class="row q-px-md q-mt-lg full-width justify-between">
-      <div class="col-3 row content">
+      <div class="col-3 row content" v-for="item in props.contentData" :key="item.label">
         <div class="row content-container">
           <q-avatar size="60px" class="q-my-auto q-mx-lg">
             <img src="https://cdn.quasar.dev/img/avatar.png" />
           </q-avatar>
           <div class="column q-ml-sm">
-            <h6 class="q-my-none">24</h6>
-            <h6 class="q-my-none text-body2">Total Clients</h6>
-          </div>
-        </div>
-      </div>
-      <div class="col-3 row content">
-        <div class="row content-container">
-          <q-avatar size="60px" class="q-my-auto q-mx-lg">
-            <img src="https://cdn.quasar.dev/img/avatar.png" />
-          </q-avatar>
-          <div class="column q-ml-sm">
-            <h6 class="q-my-none">19</h6>
-            <h6 class="q-my-none text-body2">Active Clients</h6>
-          </div>
-        </div>
-      </div>
-      <div class="col-3 row content">
-        <div class="row content-container">
-          <q-avatar size="60px" class="q-my-auto q-mx-lg">
-            <img src="https://cdn.quasar.dev/img/avatar.png" />
-          </q-avatar>
-          <div class="column q-ml-sm">
-            <h6 class="q-my-none">10</h6>
-            <h6 class="q-my-none text-body2">Credit Limit reached</h6>
-          </div>
-        </div>
-      </div>
-      <div class="col-3 row content">
-        <div class="row content-container">
-          <q-avatar size="60px" class="q-my-auto q-mx-lg">
-            <img src="https://cdn.quasar.dev/img/avatar.png" />
-          </q-avatar>
-          <div class="column q-ml-sm">
-            <h6 class="q-my-none">5</h6>
-            <h6 class="q-my-none text-body2">Inactive clients</h6>
+            <h6 class="q-my-none">{{ item.value }}</h6>
+            <h6 class="q-my-none text-body2">{{ item.label }}</h6>
           </div>
         </div>
       </div>
     </div>
     <div class="row full-width q-px-lg q-my-lg">
       <div class="col-12 row justify-between q-mb-lg">
-        <q-input v-model="search" outlined dense debounce="400" placeholder="Search">
+        <q-input v-model="inputSearch" outlined dense debounce="400" placeholder="Search">
           <template #prepend>
             <q-icon name="search" />
           </template>
