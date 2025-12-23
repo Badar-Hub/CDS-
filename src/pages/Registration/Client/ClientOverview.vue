@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
 import PageLayout from 'layouts/Page/PageLayout.vue';
 import { ColumnModel } from 'src/components/Table/column-model';
-import { ref } from 'vue';
+import type { IClientDto } from 'src/stores/Registrations/client/dtos/iclient-dto';
+import { useClientStore } from 'src/stores/Registrations/client/client-store';
+
+const clientStore = useClientStore();
 
 const analyticsData = ref([
   {
@@ -21,6 +25,8 @@ const analyticsData = ref([
     value: 30,
   },
 ]);
+
+const clients = ref<IClientDto[]>([]);
 
 const search = ref('');
 
@@ -237,10 +243,20 @@ const data = ref<unknown[]>([
     action: 'Action',
   },
 ]);
+
+onMounted(async () => {
+  clients.value = await clientStore.getList();
+});
 </script>
 
 <template>
-  <PageLayout v-model:search="search" :content-data="analyticsData" :columns="columns" :data="data" page-title="Client Overview" />
+  <PageLayout
+    v-model:search="search"
+    :content-data="analyticsData"
+    :columns="columns"
+    :data="data"
+    page-title="Client Overview"
+  />
 </template>
 
 <style lang="scss"></style>
