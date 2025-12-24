@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-// import { useQuasar } from 'quasar';
 import { useAuthStore } from 'src/stores/Auth/auth-store';
 import type { IAuthRequestDto } from 'src/stores/Auth/dtos/iauth-request-dto';
 
-// const $q = useQuasar();
 const router = useRouter();
 const authStore = useAuthStore();
 
@@ -24,23 +22,11 @@ const handleLogin = async () => {
       password: password.value,
     };
 
-    await authStore.login(credentials);
-
-    // $q.notify({
-    //   type: 'positive',
-    //   message: 'Welcome back!',
-    //   icon: 'check_circle',
-    //   position: 'top',
-    // });
-
-    await router.push('/');
-  } catch {
-    // $q.notify({
-    //   type: 'negative',
-    //   message: 'Invalid credentials. Please try again.',
-    //   icon: 'error',
-    //   position: 'top',
-    // });
+    const token = await authStore.login(credentials);
+    console.log('Login successful, token:', token);
+    await router.push({ name: 'Dashboard' });
+  } catch (error) {
+    console.error('Login failed:', error);
   } finally {
     isLoading.value = false;
   }
