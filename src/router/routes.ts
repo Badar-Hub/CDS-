@@ -175,6 +175,13 @@ const routes: RouteRecordRaw[] = [
     ],
   },
 
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('pages/Login/LoginPage.vue'),
+    meta: { icon: 'login' },
+  },
+
   // Always leave this as last one,
   // but you can also remove it
   {

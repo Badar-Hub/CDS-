@@ -14,7 +14,7 @@ export const useAuthStore = defineStore('authStore', {
       localStorage.setItem('token', token);
 
       const decryptedToken = token.split('.') ?? [];
-      const responseData = JSON.parse(atob(decryptedToken[1]));
+      const responseData = JSON.parse(atob(decryptedToken[1] ?? ''));
       const role = responseData.role;
       localStorage.setItem('role', role);
 

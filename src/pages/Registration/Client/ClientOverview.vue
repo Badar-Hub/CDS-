@@ -2,8 +2,8 @@
 import { onMounted, ref } from 'vue';
 import PageLayout from 'layouts/Page/PageLayout.vue';
 import { ColumnModel } from 'src/components/Table/column-model';
-import type { IClientDto } from 'src/stores/Registrations/client/dtos/iclient-dto';
 import { useClientStore } from 'src/stores/Registrations/client/client-store';
+import type { IClientDto } from 'src/stores/Registrations/client/dtos/iclient-dto';
 
 const clientStore = useClientStore();
 

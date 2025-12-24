@@ -50,15 +50,18 @@ export default class ApiService {
     try {
       let reqBody: RequestDto<unknown> | FormData;
 
+      console.log(sendAsFormData, "sendAsFormDatasendAsFormData");
       if (sendAsFormData) {
+        console.log(sendAsFormData, "sendAsFormDatasendAsFormData");
         reqBody = ApiService.getFormData(body as Record<string, Blob | string>);
       } else {
+        console.log("notSendAsFormData", "sendAsFormDatasendAsFormData");
         reqBody = { data: body };
       }
       Loading.show({ message: 'Please wait...' });
       const res = await ApiService.axios.post<T>(url, reqBody, {
         timeout: timeoutMs,
-        headers: { 'Content-Type': 'multipart/form-data', Accept: '*/*' },
+        // headers: { 'Content-Type': 'multipart/form-data', Accept: '*/*' },
       });
       Loading.hide();
       ApiService.showSuccess((res.data as unknown as { message: string }).message);
