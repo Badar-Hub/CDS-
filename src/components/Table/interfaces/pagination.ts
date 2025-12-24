@@ -1,8 +1,9 @@
-export interface IPagination {
-  descending: boolean;
-  page: number;
+export interface IPagination<T> {
+  data: T[];
+  pageNumber: number;
   rowsPerPage: number;
-  rowsNumber?: number;
+  totalPages: number;
+  totalRows: number;
 }
 
 export interface IPaginationProps {
@@ -10,4 +11,3 @@ export interface IPaginationProps {
   rowsPerPage: number;
   rowsNumber?: number;
 }
-

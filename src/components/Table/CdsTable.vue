@@ -34,22 +34,16 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: 'row-click', row: unknown): void;
-  (e: 'request', props: unknown): void;
+  (e: 'page-change', page: number): void;
 }>();
 
-const {
-  pagination: internalPagination,
-  showingText,
-  visiblePages,
-  totalPages,
-  goToPage,
-  isFirstPage,
-  isLastPage,
-} = usePagination(
-  toRef(props, 'pagination'),
-  computed(() => props.data.length),
-  toRef(props, 'entityName'),
-);
+const { currentPage, showingText, visiblePages, totalPages, goToPage, isFirstPage, isLastPage } =
+  usePagination(
+    toRef(props, 'pagination'),
+    computed(() => props.data.length),
+    toRef(props, 'entityName'),
+    (page) => emit('page-change', page),
+  );
 
 const overrideColumns = computed(() => props.columns.filter((col) => col.override));
 
@@ -66,16 +60,15 @@ const getColumnIcon = (colName: string) => props.columns.find((col) => col.name 
 <template>
   <q-table
     flat
+    hide-pagination
     class="stellar-custom-table"
     no-data-label="No Data"
-    :rows="data"
     v-bind="$attrs"
+    :rows="data"
     :columns="columns"
     :filter="hideSearch ? undefined : filter"
-    v-model:pagination="internalPagination"
-    :rows-per-page-options="[5, 7, 10, 15, 20, 25, 50, 100]"
     :visible-columns="visibleColumns"
-    @request="(props) => emit('request', props)"
+    :pagination="{ rowsPerPage: 0 }"
     @row-click="(_, row) => emit('row-click', row)"
   >
     <template #header="headerProps">
@@ -143,7 +136,7 @@ const getColumnIcon = (colName: string) => props.columns.find((col) => col.name 
             dense
             icon="chevron_left"
             :disable="isFirstPage"
-            @click="goToPage(internalPagination.page - 1)"
+            @click="goToPage(currentPage - 1)"
           />
 
           <q-btn
@@ -152,7 +145,7 @@ const getColumnIcon = (colName: string) => props.columns.find((col) => col.name 
             flat
             dense
             class="page-btn"
-            :class="{ 'page-active': page === internalPagination.page }"
+            :class="{ 'page-active': page === currentPage }"
             @click="goToPage(page)"
           >
             {{ page }}
@@ -163,7 +156,7 @@ const getColumnIcon = (colName: string) => props.columns.find((col) => col.name 
             dense
             icon="chevron_right"
             :disable="isLastPage"
-            @click="goToPage(internalPagination.page + 1)"
+            @click="goToPage(currentPage + 1)"
           />
           <q-btn flat dense icon="last_page" :disable="isLastPage" @click="goToPage(totalPages)" />
         </div>

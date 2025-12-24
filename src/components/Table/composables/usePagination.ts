@@ -1,61 +1,32 @@
-import { ref, computed, watch, type Ref } from 'vue';
-import type { IPagination, IPaginationProps } from '../interfaces/pagination';
+import { ref, computed, type Ref } from 'vue';
+import type { IPaginationProps } from '../interfaces/pagination';
 
 export function usePagination(
   paginationProps: Ref<IPaginationProps | undefined>,
   dataLength: Ref<number>,
   entityName: Ref<string>,
+  onPageChange?: (page: number) => void,
 ) {
-  const isServerSide = computed(() => {
-    return !!(
-      paginationProps.value?.rowsNumber !== undefined && paginationProps.value.rowsNumber >= 0
-    );
-  });
+  const currentPage = ref(paginationProps.value?.page || 1);
+  const rowsPerPage = computed(() => paginationProps.value?.rowsPerPage || 10);
 
-  const initPagination = (): IPagination => ({
-    descending: false,
-    page: paginationProps.value?.page || 1,
-    rowsPerPage: paginationProps.value?.rowsPerPage || 10,
-    ...(isServerSide.value && { rowsNumber: paginationProps.value?.rowsNumber || 0 }),
-  });
+  const totalRows = computed(() => paginationProps.value?.rowsNumber || dataLength.value);
 
-  const pagination = ref<IPagination>(initPagination());
-
-  watch(
-    paginationProps,
-    (newPagination) => {
-      if (newPagination && isServerSide.value) {
-        pagination.value = {
-          ...pagination.value,
-          page: newPagination.page,
-          rowsPerPage: newPagination.rowsPerPage,
-          rowsNumber: newPagination.rowsNumber || 0,
-        };
-      }
-    },
-    { deep: true },
-  );
-
-  const totalRows = computed(() => pagination.value.rowsNumber ?? dataLength.value);
-
-  const totalPages = computed(() => Math.ceil(totalRows.value / pagination.value.rowsPerPage));
+  const totalPages = computed(() => Math.ceil(totalRows.value / rowsPerPage.value));
 
   const showingText = computed(() => {
-    const { page, rowsPerPage } = pagination.value;
-    const total = totalRows.value;
-    const end = Math.min(page * rowsPerPage, total);
-    return `Showing ${end} of ${total} ${entityName.value}`;
+    const end = Math.min(currentPage.value * rowsPerPage.value, totalRows.value);
+    return `Showing ${end} of ${totalRows.value} ${entityName.value}`;
   });
 
   const visiblePages = computed(() => {
-    const current = pagination.value.page;
+    const current = currentPage.value;
     const total = totalPages.value;
     const maxVisible = 5;
 
     let start = Math.max(1, current - Math.floor(maxVisible / 2));
     const end = Math.min(total, start + maxVisible - 1);
 
-    // Adjust start if end is at max
     if (end - start + 1 < maxVisible) {
       start = Math.max(1, end - maxVisible + 1);
     }
@@ -65,15 +36,17 @@ export function usePagination(
 
   const goToPage = (page: number) => {
     if (page >= 1 && page <= totalPages.value) {
-      pagination.value.page = page;
+      currentPage.value = page;
+      onPageChange?.(page);
     }
   };
 
-  const isFirstPage = computed(() => pagination.value.page === 1);
-  const isLastPage = computed(() => pagination.value.page === totalPages.value);
+  const isFirstPage = computed(() => currentPage.value === 1);
+  const isLastPage = computed(() => currentPage.value === totalPages.value);
 
   return {
-    pagination,
+    currentPage,
+    rowsPerPage,
     totalRows,
     totalPages,
     showingText,
